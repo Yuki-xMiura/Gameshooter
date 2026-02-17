@@ -1,14 +1,15 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-from Code.menu import Menu
 import pygame
+
+from Code.Menu import Menu
+from Code.Paraments import ALTURA, LARGURA
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.window = pygame.display.set_mode(size=(800, 600))
+        self.window = pygame.display.set_mode(size=(LARGURA,ALTURA))
 
     def run(self, ):
+
         while True:
             menu = Menu(self.window)
             menu.run()

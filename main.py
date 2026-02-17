@@ -1,6 +1,8 @@
 
 
-from Code.game import Game
+from Code.Game import Game
 
+print('ja começou')
 game = Game()
+
 game.run()
