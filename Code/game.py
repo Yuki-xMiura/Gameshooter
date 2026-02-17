@@ -1,7 +1,7 @@
 import pygame
 
-from Code.Menu import Menu
-from Code.Paraments import ALTURA, LARGURA
+from code.Menu import Menu
+from code.Paraments import ALTURA, LARGURA
 
 class Game:
     def __init__(self):

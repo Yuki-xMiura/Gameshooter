@@ -3,7 +3,7 @@
 
 import pygame
 from pygame import font, surface, rect
-from Code.Paraments import ALTURA, LARGURA, C_ORANGE, MENU_OPTION, C_WHITE
+from code.Paraments import ALTURA, LARGURA, C_ORANGE, MENU_OPTION, C_WHITE
 
 class Menu:
     def __init__(self, window):
