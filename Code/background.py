@@ -9,6 +9,6 @@ class Background(Entity):
         super().__init__(name, position)
 
     def move(self, ):
-        self.rect.centerx -= ENTITY_SPEED[self.name]
+        self.rect.centerx -= self.speed
         if self.rect.right <= 0:
             self.rect.left = LARGURA
