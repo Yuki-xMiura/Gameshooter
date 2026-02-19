@@ -3,7 +3,7 @@
 
 import pygame
 from pygame import font, surface, rect
-from code.Paraments import ALTURA, LARGURA, C_ORANGE, MENU_OPTION, C_WHITE
+from code.Paraments import ALTURA, LARGURA, C_ORANGE, MENU_OPTION, C_WHITE, C_YELLOW
 
 class Menu:
     def __init__(self, window):
@@ -12,6 +12,7 @@ class Menu:
         self.rect = self.surf.get_rect()
         
     def run(self,):
+        menu_option = 0
         pygame.mixer.music.load('asset/Menu.mp3') 
         pygame.mixer.music.play(-1)
         while True:
@@ -20,7 +21,10 @@ class Menu:
             self.menu_text(text_size=50, text="Shooter", text_color=(C_ORANGE), text_center_pos=(LARGURA/2, 120))
             
             for i in range(len(MENU_OPTION)):
-                self.menu_text(text_size=20, text=MENU_OPTION[i], text_color=(C_WHITE), text_center_pos=(LARGURA/2, 170 + i*30))
+                if i == menu_option:
+                    self.menu_text(text_size=20, text=MENU_OPTION[i], text_color=(C_YELLOW), text_center_pos=(LARGURA/2, 170 + i*30))
+                else:
+                    self.menu_text(text_size=20, text=MENU_OPTION[i], text_color=(C_WHITE), text_center_pos=(LARGURA/2, 170 + i*30))
             pygame.display.flip()
 
 
@@ -32,8 +36,22 @@ class Menu:
                     pygame.quit()
                     exit()
                     #teste
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_DOWN:
+                        menu_option += 1
+                        if menu_option > len(MENU_OPTION) - 1:
+                            menu_option = 0
+                    elif event.key == pygame.K_UP:
+                        menu_option -= 1
+                        if menu_option < 0:
+                            menu_option = len(MENU_OPTION) - 1
+                    elif event.key == pygame.K_RETURN:
+                        print(menu_option)
+                        return MENU_OPTION[menu_option]
+                    
     def menu_text(self, text_size: int, text: str, text_color: tuple, text_center_pos: tuple):
             text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
             text_surf: Surface = text_font.render(text, True, text_color).convert_alpha()
             text_rect: Rect = text_surf.get_rect(center=text_center_pos)
             self.window.blit(source=text_surf, dest=text_rect)
+            
