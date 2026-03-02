@@ -12,5 +12,3 @@ class Enemy(Entity):
 
     def move(self, ):
         self.rect.centerx -= self.speed
-        if self.rect.right <= 0:
-            self.rect.left = LARGURA

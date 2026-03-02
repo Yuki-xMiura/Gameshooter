@@ -5,6 +5,7 @@ import random
 import sys
 from tkinter.font import Font
 
+from code.EntityMediator import EntityMediator
 import pygame
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory  
@@ -36,7 +37,7 @@ class Level:
                 self.window.blit(source=ent.surf, dest=ent.rect)
                 ent.move()
             pygame.display.flip()
-            
+
 
             
         # Check for all events
@@ -56,6 +57,10 @@ class Level:
             self.level_text(14, f'fps: {clock.get_fps():.0f}', C_WHITE, (10, ALTURA - 35))
             self.level_text(14, f'entidades: {len(self.entity_list)}', C_WHITE, (10, ALTURA - 20))
             pygame.display.flip()
+
+            #verify collision
+            EntityMediator.verify_collision(self.entity_list)
+            EntityMediator.verify_health(self.entity_list)
 
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
