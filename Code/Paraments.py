@@ -25,6 +25,7 @@ ENTITY_SPEED = {
 }
 
 ENTITY_HEALTH = {
+    'Background': 999,
     'Level1Bg0': 999,
     'Level1Bg1': 999,
     'Level1Bg2': 999,
