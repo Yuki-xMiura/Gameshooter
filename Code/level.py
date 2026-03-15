@@ -5,6 +5,8 @@ import random
 import sys
 from tkinter.font import Font
 
+from code.Player import Player
+from code.Enemy import  Enemy
 from code.EntityMediator import EntityMediator
 import pygame
 from code.Entity import Entity
@@ -33,34 +35,35 @@ class Level:
         clock = pygame.time.Clock()
         while True:
             clock.tick(60)
-            for ent in self.entity_list:
-                self.window.blit(source=ent.surf, dest=ent.rect)
-                ent.move()
-            pygame.display.flip()
 
-
-            
-        # Check for all events
-
+            # Check for all events
             for event in pygame.event.get():
-                # If the event is QUIT then exit the program
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 if event.type == EVENT_ENEMY:
                     choice = random.choice(['Enemy1', 'Enemy2'])
                     self.entity_list.append(EntityFactory.get_entity(choice))
-                    
-            
-             # printed text
+
+            # Update and draw entities
+            for ent in list(self.entity_list):
+                self.window.blit(source=ent.surf, dest=ent.rect)
+                ent.move()
+                if isinstance(ent, (Player, Enemy)):
+                    shot = ent.shot()
+                    if shot is not None:
+                        self.entity_list.append(shot)
+
+            # printed text
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', C_WHITE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps():.0f}', C_WHITE, (10, ALTURA - 35))
             self.level_text(14, f'entidades: {len(self.entity_list)}', C_WHITE, (10, ALTURA - 20))
-            pygame.display.flip()
 
-            #verify collision
+            # verify state
             EntityMediator.verify_collision(self.entity_list)
             EntityMediator.verify_health(self.entity_list)
+
+            pygame.display.flip()
 
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
