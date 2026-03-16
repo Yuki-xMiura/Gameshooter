@@ -10,6 +10,7 @@ class Enemy(Entity):
     def __init__(self, name: str, position: tuple):
         super().__init__(name, position)
         self.shot_cooldown = ENTITY_SHOT_COOLDOWN[self.name]
+        self.last_damage = None
 
 
     def move(self, ):

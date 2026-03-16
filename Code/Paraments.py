@@ -30,11 +30,14 @@ ENTITY_DAMAGE = {
     'Enemy2': 10,
     'Enemy1Shot': 15,
     'Enemy2Shot': 15
-
+}
+ENTITY_SCORE = {
+    'Enemy1': 10,
+    'Enemy2': 20,
 }
 ENTITY_SHOT_COOLDOWN = {
-    'Player1': 500,
-    'Player2': 500,
+    'Player1': 350,
+    'Player2': 350,
     'Enemy1': 2000,
     'Enemy2': 1500,
 }

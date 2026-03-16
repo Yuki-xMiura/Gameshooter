@@ -62,9 +62,11 @@ class Level:
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', C_WHITE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps():.0f}', C_WHITE, (10, ALTURA - 35))
             self.level_text(14, f'Life P1: {self.player1.health}', C_GREEN, (10, ALTURA - 50))
+            self.level_text(14, f'Score P1: {self.player1.score}', C_GREEN, (150, ALTURA - 50))
             self.level_text(14, f'entidades: {len(self.entity_list)}', C_WHITE, (10, ALTURA - 20))
             if self.game_mode in [MENU_OPTION[1], MENU_OPTION[2]]:
-                self.level_text(14, f'Life P2: {self.player2.health}', C_CYAN, (150, ALTURA - 50))
+                self.level_text(14, f'Life P2: {self.player2.health}', C_CYAN, (10, ALTURA - 65))
+                self.level_text(14, f'Score : {self.player2.score}', C_CYAN, (150, ALTURA - 65))
 
             # verify state
             EntityMediator.verify_collision(self.entity_list)

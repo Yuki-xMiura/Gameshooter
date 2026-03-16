@@ -13,6 +13,7 @@ class Player(Entity):
     def __init__(self, name: str, position: tuple):
         super().__init__(name, position)
         self.shot_cooldown = 0
+        self.score = 0
 
     def move(self, ):
         keys = pygame.key.get_pressed()
