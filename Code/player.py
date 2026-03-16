@@ -12,7 +12,7 @@ from code.EnemyShot import EnemyShot
 class Player(Entity):
     def __init__(self, name: str, position: tuple):
         super().__init__(name, position)
-        self.shot_cooldown = ENTITY_SHOT_COOLDOWN[self.name]
+        self.shot_cooldown = 0
 
     def move(self, ):
         keys = pygame.key.get_pressed()
@@ -38,7 +38,8 @@ class Player(Entity):
         if self.shot_cooldown <= 0:
             if pygame.key.get_pressed()[PLAYER_KEY_SHOT[self.name]]:
                 self.shot_cooldown = ENTITY_SHOT_COOLDOWN[self.name]
-                return EnemyShot(name=f'{self.name}Shot', position=self.rect.center )
+                return PlayerShot(name=f'{self.name}Shot', position=self.rect.center )
+                self.shot_cooldown = ENTITY_SHOT_COOLDOWN[self.name]
         
 
             

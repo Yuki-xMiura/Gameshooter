@@ -20,3 +20,4 @@ class Enemy(Entity):
         if self.shot_cooldown <= 0:
             self.shot_cooldown = ENTITY_SHOT_COOLDOWN[self.name]
             return EnemyShot(name=f'{self.name}Shot', position=self.rect.center )
+            self.shot_cooldown = ENTITY_SHOT_COOLDOWN[self.name]

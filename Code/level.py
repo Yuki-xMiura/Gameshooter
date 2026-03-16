@@ -11,7 +11,7 @@ from code.EntityMediator import EntityMediator
 import pygame
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory  
-from code.Paraments import C_WHITE, ALTURA, EVENT_ENEMY, SPAWN_TIME
+from code.Paraments import C_WHITE, ALTURA, EVENT_ENEMY, SPAWN_TIME, C_GREEN, C_CYAN, LARGURA
 from code.Menu import MENU_OPTION
 
 
@@ -23,9 +23,13 @@ class Level:
         self.game_mode = game_mode
         self.entity_list: list[Entity] = []
         self.entity_list.extend(EntityFactory.get_entity('Level1Bg'))
-        self.entity_list.append(EntityFactory.get_entity('Player1'))
+        self.player1 = EntityFactory.get_entity('Player1')
+        self.entity_list.append(self.player1)
         if self.game_mode in [MENU_OPTION[1], MENU_OPTION[2]]:
-            self.entity_list.append(EntityFactory.get_entity('Player2'))
+            self.player2 = EntityFactory.get_entity('Player2')
+            self.entity_list.append(self.player2)
+        else:
+            self.player2 = None
         pygame.time.set_timer(EVENT_ENEMY, SPAWN_TIME)
         
 
@@ -57,7 +61,10 @@ class Level:
             # printed text
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', C_WHITE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps():.0f}', C_WHITE, (10, ALTURA - 35))
+            self.level_text(14, f'Life P1: {self.player1.health}', C_GREEN, (10, ALTURA - 50))
             self.level_text(14, f'entidades: {len(self.entity_list)}', C_WHITE, (10, ALTURA - 20))
+            if self.game_mode in [MENU_OPTION[1], MENU_OPTION[2]]:
+                self.level_text(14, f'Life P2: {self.player2.health}', C_CYAN, (150, ALTURA - 50))
 
             # verify state
             EntityMediator.verify_collision(self.entity_list)

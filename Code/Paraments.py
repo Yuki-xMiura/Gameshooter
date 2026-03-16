@@ -6,15 +6,37 @@ import pygame
 C_ORANGE = (255, 128, 0)
 C_WHITE = (255, 255, 255)
 C_YELLOW = (255, 255, 0)
+C_GREEN = (0, 255, 0)
+C_CYAN = (0, 255, 255)
 
 
 #E
+
 EVENT_ENEMY = pygame.USEREVENT + 1
+
+ENTITY_DAMAGE = {
+'Level1Bg0': 0,
+    'Level1Bg1': 0,
+    'Level1Bg2': 0,
+    'Level1Bg3': 0,
+    'Level1Bg4': 0,
+    'Level1Bg5': 0,
+    'Level1Bg6': 0,
+    'Player1': 1,
+    'Player1Shot': 10,
+    'Player2': 1,
+    'Player2Shot': 10,
+    'Enemy1': 10,
+    'Enemy2': 10,
+    'Enemy1Shot': 15,
+    'Enemy2Shot': 15
+
+}
 ENTITY_SHOT_COOLDOWN = {
     'Player1': 500,
     'Player2': 500,
-    'Enemy1': 6000,
-    'Enemy2': 5000,
+    'Enemy1': 2000,
+    'Enemy2': 1500,
 }
 ENTITY_SPEED = {
     'Level1Bg0': 0,
@@ -28,10 +50,10 @@ ENTITY_SPEED = {
     'Player1Shot': 4,
     'Player2': 3,
     'Player2Shot': 4,
-    'Enemy1': 2,
-    'Enemy2': 3,
-    'Enemy1Shot': 4,
-    'Enemy2Shot': 4
+    'Enemy1': 1,
+    'Enemy2': 2,
+    'Enemy1Shot': 5,
+    'Enemy2Shot': 5
 }
 
 ENTITY_HEALTH = {
@@ -48,9 +70,9 @@ ENTITY_HEALTH = {
     'Level2Bg2': 999,
     'Level2Bg3': 999,
     'Level2Bg4': 999,
-    'Player1': 300,
+    'Player1': 50,
     'Player1Shot': 1,
-    'Player2': 300,
+    'Player2': 50,
     'Player2Shot': 1,
     'Enemy1': 50,
     'Enemy1Shot': 1,
@@ -85,6 +107,4 @@ def get_parameters():
     print(f"A LARGURA é: {LARGURA}px")
     print(f"A ALTURA é: {ALTURA}px")
 
-get_parameters()
-
-
+#get_parameters()

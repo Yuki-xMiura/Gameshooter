@@ -1,4 +1,3 @@
-
 from code.Entity import Entity
 
 from code.Paraments import ENTITY_SPEED
@@ -8,4 +7,4 @@ class PlayerShot(Entity):
         super().__init__(name, position)
 
     def move(self, ):
-        self.rect.centerx -= self.speed
+        self.rect.centerx += self.speed
