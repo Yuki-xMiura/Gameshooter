@@ -1,6 +1,8 @@
-from PIL import Image
-import pygame
 
+
+# 1. Carrega a imagem
+img = Image.open('asset/MenuBg.png')
+LARGURA, ALTURA = img.size
 
 #C
 C_ORANGE = (255, 128, 0)
@@ -13,6 +15,7 @@ C_CYAN = (0, 255, 255)
 #E
 
 EVENT_ENEMY = pygame.USEREVENT + 1
+EVENT_TIMEOUT = pygame.USEREVENT + 2
 
 ENTITY_DAMAGE = {
 'Level1Bg0': 0,
@@ -22,6 +25,11 @@ ENTITY_DAMAGE = {
     'Level1Bg4': 0,
     'Level1Bg5': 0,
     'Level1Bg6': 0,
+    'Level2Bg0': 0,
+    'Level2Bg1': 0,
+    'Level2Bg2': 0,
+    'Level2Bg3': 0,
+    'Level2Bg4': 0,
     'Player1': 1,
     'Player1Shot': 10,
     'Player2': 1,
@@ -49,6 +57,11 @@ ENTITY_SPEED = {
     'Level1Bg4': 4,
     'Level1Bg5': 5,
     'Level1Bg6': 6,
+    'Level2Bg0': 0,
+    'Level2Bg1': 1,
+    'Level2Bg2': 2,
+    'Level2Bg3': 3,
+    'Level2Bg4': 4,
     'Player1': 3,
     'Player1Shot': 4,
     'Player2': 3,
@@ -101,9 +114,26 @@ PLAYER_KEY_SHOT = {'Player1': pygame.K_RCTRL, 'Player2': pygame.K_LCTRL}
 #S
 SPAWN_TIME = 4000
 
-# 1. Carrega a imagem
-img = Image.open('asset/MenuBg.png')
-LARGURA, ALTURA = img.size
+SCORE_POS = {'Title': (LARGURA / 2, 50),
+             'EnterName': (LARGURA / 2, 80),
+             'Label': (LARGURA / 2, 90),
+             'Name': (LARGURA / 2, 110),
+             0: (LARGURA / 2, 110),
+             1: (LARGURA / 2, 130),
+             2: (LARGURA / 2, 150),
+             3: (LARGURA / 2, 170),
+             4: (LARGURA / 2, 190),
+             5: (LARGURA / 2, 210),
+             6: (LARGURA / 2, 230),
+             7: (LARGURA / 2, 250),
+             8: (LARGURA / 2, 270),
+             9: (LARGURA / 2, 290),
+             }
+
+#T
+TIMEOUT_STEP = 100
+TIMEOUT_LEVEL = 1000
+
 
 # Agora você pode usar as variáveis
 def get_parameters():

@@ -11,29 +11,33 @@ from code.EntityMediator import EntityMediator
 import pygame
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory  
-from code.Paraments import C_WHITE, ALTURA, EVENT_ENEMY, SPAWN_TIME, C_GREEN, C_CYAN, LARGURA
+from code.Paraments import C_WHITE, ALTURA, EVENT_ENEMY, SPAWN_TIME, C_GREEN, C_CYAN, LARGURA, TIMEOUT_STEP, EVENT_TIMEOUT, TIMEOUT_LEVEL
 from code.Menu import MENU_OPTION
 
 
 class Level:
-    def __init__(self, window, name, game_mode):
-        self.timeout = 20000
+    def __init__(self, window, name, game_mode, player_score: list[int], player_health: list[int]):
+        self.timeout = TIMEOUT_LEVEL
         self.window = window
         self.name = name
         self.game_mode = game_mode
         self.entity_list: list[Entity] = []
-        self.entity_list.extend(EntityFactory.get_entity('Level1Bg'))
-        self.player1 = EntityFactory.get_entity('Player1')
-        self.entity_list.append(self.player1)
+        self.entity_list.extend(EntityFactory.get_entity(f'{self.name}Bg'))
+        player = EntityFactory.get_entity('Player1')
+        player.score = player_score[0]
+        player.health = player_health[0]
+        self.entity_list.append(player)
         if self.game_mode in [MENU_OPTION[1], MENU_OPTION[2]]:
-            self.player2 = EntityFactory.get_entity('Player2')
-            self.entity_list.append(self.player2)
+            player = EntityFactory.get_entity('Player2')
+            player.score = player_score[1]
+            player.health = player_health[1]
+            self.entity_list.append(player)
         else:
             self.player2 = None
         pygame.time.set_timer(EVENT_ENEMY, SPAWN_TIME)
-        
+        pygame.time.set_timer(EVENT_TIMEOUT, TIMEOUT_STEP) #100 miliseconds = 0.1 seconds
 
-    def run(self, ):
+    def run(self, player_score: list[int], player_health: list[int]):
         pygame.mixer.music.load(f'asset/{self.name}.mp3')
         pygame.mixer.music.play(-1)
         clock = pygame.time.Clock()
@@ -48,7 +52,25 @@ class Level:
                 if event.type == EVENT_ENEMY:
                     choice = random.choice(['Enemy1', 'Enemy2'])
                     self.entity_list.append(EntityFactory.get_entity(choice))
+                if event.type == EVENT_TIMEOUT:
+                    self.timeout -= TIMEOUT_STEP
+                    if self.timeout <= 0:
+                        for ent in self.entity_list:
+                            if isinstance(ent, Player) and ent.name == 'Player1':
+                                player_score[0] = ent.score
+                                player_health[0] = ent.health
+                            if isinstance(ent, Player) and ent.name == 'Player2':
+                                player_score[1] = ent.score
+                                player_health[1] = ent.health
+                        return True
 
+                found_player = False
+                for ent in self.entity_list:
+                    if isinstance(ent, Player):
+                        found_player = True
+                if not found_player:
+                    return False
+                
             # Update and draw entities
             for ent in list(self.entity_list):
                 self.window.blit(source=ent.surf, dest=ent.rect)
@@ -57,16 +79,16 @@ class Level:
                     shot = ent.shot()
                     if shot is not None:
                         self.entity_list.append(shot)
+                if ent.name == 'Player1':
+                    self.level_text(14, f'Player1 - Health: {ent.health} | Score: {ent.score}', C_GREEN, (10, 25))
+                if ent.name == 'Player2':
+                    self.level_text(14, f'Player2 - Health: {ent.health} | Score: {ent.score}', C_CYAN, (10, 45))
 
             # printed text
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', C_WHITE, (10, 5))
             self.level_text(14, f'fps: {clock.get_fps():.0f}', C_WHITE, (10, ALTURA - 35))
-            self.level_text(14, f'Life P1: {self.player1.health}', C_GREEN, (10, ALTURA - 50))
-            self.level_text(14, f'Score P1: {self.player1.score}', C_GREEN, (150, ALTURA - 50))
             self.level_text(14, f'entidades: {len(self.entity_list)}', C_WHITE, (10, ALTURA - 20))
-            if self.game_mode in [MENU_OPTION[1], MENU_OPTION[2]]:
-                self.level_text(14, f'Life P2: {self.player2.health}', C_CYAN, (10, ALTURA - 65))
-                self.level_text(14, f'Score : {self.player2.score}', C_CYAN, (150, ALTURA - 65))
+            
 
             # verify state
             EntityMediator.verify_collision(self.entity_list)
